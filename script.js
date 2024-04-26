@@ -1,16 +1,15 @@
 document.addEventListener('DOMContentLoaded', function() {
     const startButton = document.getElementById('startButton');
-    const playerNameInput = document.getElementById('playerName');
-    let players = [];
+    let players = [
+        { name: 'Sharu', role: '', topic:''},
+        { name: 'AJ', role: '', topic:''},
+        { name: 'Sai', role: '', topic:''},
+        { name: 'JJ', role: '', topic:''}
+    ];
 
     startButton.addEventListener('click', function() {
-        const playerName = playerNameInput.value.trim();
-        if (playerName === '') {
-            alert('Bitte gib deinen Namen ein.');
-            return;
-        }
-        players.push({ name: playerName, role: '' });
         startGame(players);
+        updateHTML(players);
     });
 
     function startGame(players) {
@@ -18,32 +17,42 @@ document.addEventListener('DOMContentLoaded', function() {
         const spyIndex = Math.floor(Math.random() * numberOfPlayers);
         
         for (let i = 0; i < numberOfPlayers; i++) {
-            if (i === spyIndex) {
-                players[i].role = 'Spion';
-            } else {
-                players[i].role = 'Nicht-Spion';
-            }
+            players[i].role = i === spyIndex ? 'Spion' : 'Nicht-Spion';
         }
 
         assignTopics(players);
-
-        alert(`Willkommen, ${players[spyIndex].name}! Du bist der Spion.`);
-        for (let i = 0; i < numberOfPlayers; i++) {
-            if (i !== spyIndex) {
-                alert(`${players[i].name}, du bist ein Nicht-Spion und dein Thema ist: ${players[i].topic}.`);
-            }
-        }
     }
 
     function assignTopics(players) {
         const topics = ['Politik', 'Sport', 'Film', 'Essen', 'Geschichte'];
         const numberOfTopics = topics.length;
-        
+        const randomTopicIndex = Math.floor(Math.random() * numberOfTopics);
+
         for (let i = 0; i < players.length; i++) {
             if (players[i].role === 'Nicht-Spion') {
-                const randomTopicIndex = Math.floor(Math.random() * numberOfTopics);
                 players[i].topic = topics[randomTopicIndex];
             }
         }
+    }
+
+    function updateHTML(players) {
+        const playersContainer = document.getElementById('players');
+        playersContainer.innerHTML = '';
+        players.forEach((player, index) => {
+            const playerElement = document.createElement('div');
+            if (player.role === 'Nicht-Spion') {
+                playerElement.innerHTML = `
+                    <p>${player.name}</p>
+                    <button onclick="alert('Thema: ${player.topic}, ${player.role}');">Zeige Rolle</button>
+                `;
+            }
+            else{
+                playerElement.innerHTML = `
+                    <p>${player.name}</p>
+                    <button onclick="alert('${player.role}');">Zeige Rolle</button>
+                `;
+            }
+            playersContainer.appendChild(playerElement);
+        });
     }
 });
