@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
     const startButton = document.getElementById('startButton');
     let players = [
-        { name: 'Sharu', role: '', topic:''},
-        { name: 'AJ', role: '', topic:''},
-        { name: 'Sai', role: '', topic:''},
-        { name: 'JJ', role: '', topic:''}
+        { name: '', role: '', topic:''},
+        { name: '', role: '', topic:''},
+        { name: '', role: '', topic:''},
+        { name: '', role: '', topic:''}
     ];
 
     startButton.addEventListener('click', function() {
